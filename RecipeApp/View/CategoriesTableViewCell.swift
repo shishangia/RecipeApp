@@ -1,5 +1,5 @@
 //
-//  CategoryTableViewCell.swift
+//  CategoriesTableViewCell.swift
 //  RecipeApp
 //
 //  Created by Shivam on 3/27/24.
@@ -7,9 +7,9 @@
 
 import UIKit
 
-class CategoryTableViewCell: UITableViewCell {
+class CategoriesTableViewCell: UITableViewCell {
 
-    static let identifier = "CategoryTableViewCell"
+    static let identifier = "CategoriesTableViewCell"
 
     // MARK: Variables
     private(set) var category: Category!
@@ -25,16 +25,7 @@ class CategoryTableViewCell: UITableViewCell {
     private let categoryName: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = .systemFont(ofSize: 12, weight: .bold)
-        label.numberOfLines = 1
-        label.text = "Error"
-        return label
-    }()
-
-    private let categoryDesciption: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .left
-        label.font = .systemFont(ofSize: 12, weight: .regular)
+        label.font = .systemFont(ofSize: 22, weight: .semibold)
         label.text = "Error"
         return label
     }()
@@ -52,20 +43,13 @@ class CategoryTableViewCell: UITableViewCell {
     public func configure(with category: Category) {
         self.category = category
         self.categoryName.text = category.name
-        self.categoryDesciption.text = category.description
-
-//        if let imageData = try? Data(contentsOf: self.category.imageURL!) {
-//            DispatchQueue.main.async { [weak self] in
-//                self?.categoryImage.image = UIImage(data: imageData)
-//            }
-//        }
 
         guard let url = self.category.imageURL else {
             print("Invalid URL")
             return
         }
 
-        let _: Void = URLSession.shared.dataTask(with: url) { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let error = error {
                 print("Error: \(error)")
                 return
@@ -77,31 +61,27 @@ class CategoryTableViewCell: UITableViewCell {
             DispatchQueue.main.async {
                 self.categoryImage.image = UIImage(data: data)
             }
-        }.resume()
+        }
+        task.resume()
     }
 
     // MARK: UI Setup
     private func setupUI() {
         self.addSubview(categoryName)
-        self.addSubview(categoryDesciption)
         self.addSubview(categoryImage)
+//        self.backgroundColor = UIColor(red: 247/255, green: 226/255, blue: 168/255, alpha: 0.7)
 
         categoryName.translatesAutoresizingMaskIntoConstraints = false
-        categoryDesciption.translatesAutoresizingMaskIntoConstraints = false
         categoryImage.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
             categoryImage.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             categoryImage.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
-            categoryImage.widthAnchor.constraint(equalToConstant: 80),
-            categoryImage.heightAnchor.constraint(equalToConstant: 80),
+            categoryImage.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.75),
+            categoryImage.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.75),
 
-            categoryName.topAnchor.constraint(equalTo: categoryImage.topAnchor, constant: 8),
-            categoryName.leadingAnchor.constraint(equalTo: categoryImage.trailingAnchor, constant: 4),
-
-            categoryDesciption.topAnchor.constraint(equalTo: categoryName.bottomAnchor, constant: 2),
-            categoryDesciption.leadingAnchor.constraint(equalTo: categoryName.leadingAnchor),
-            categoryDesciption.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor)
+            categoryName.leadingAnchor.constraint(equalTo: categoryImage.trailingAnchor, constant: 16),
+            categoryName.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
     }
 }

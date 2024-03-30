@@ -2,12 +2,12 @@
 //  Category.swift
 //  RecipeApp
 //
-//  Created by Shivam on 3/27/24.
+//  Created by Shivam on 3/28/24.
 //
 
 import Foundation
 
-struct Category: Decodable {
+struct Meal: Decodable {
     let id: String
     let name: String
 
@@ -20,12 +20,12 @@ struct Category: Decodable {
     }
 }
 
-extension Category {
-    public static func mock() -> [Category] {
+extension Meal {
+    public static func mock() -> [Meal] {
         return [
-            Category(id: "1", name: "Beef"),
-            Category(id: "2", name: "Chicken"),
-            Category(id: "3", name: "Dessert")
+            Meal(id: "52959", name: "Baked salmon with fennel & tomatoes"),
+            Meal(id: "52819", name: "Cajun spiced fish tacos"),
+            Meal(id: "52944", name: "Escovitch Fish"),
         ]
     }
 }

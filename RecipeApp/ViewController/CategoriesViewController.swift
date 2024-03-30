@@ -1,26 +1,38 @@
 //
-//  ViewController.swift
+//  CategoriesViewController.swift
 //  RecipeApp
 //
-//  Created by Shivam on 3/26/24.
+//  Created by Shivam on 3/29/24.
 //
 
 import UIKit
 
-class BaseViewController: UIViewController {
+class CategoriesViewController: UIViewController {
 
     // MARK: Variables
-    private var categories: [Category] = []
+    private var meals: [Meal] = []
+    private var categoryName: String
 
     // MARK: UI Componenets
     private let tableview: UITableView = {
         let table = UITableView()
         table.backgroundColor = .systemBackground
-        table.register(CategoriesTableViewCell.self, forCellReuseIdentifier: CategoriesTableViewCell.identifier)
+        table.register(MealsTableViewCell.self, forCellReuseIdentifier: MealsTableViewCell.identifier)
         return table
     }()
 
     // MARK: Lifecycle
+
+    init(meals: [Meal] = [], categoryName: String) {
+        self.meals = meals
+        self.categoryName = categoryName
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.fetchData()
@@ -29,10 +41,10 @@ class BaseViewController: UIViewController {
     }
 
     private func fetchData() {
-        APICalls.fetchCategories { categories in
+        APICalls.fetchMeals(mealCategory: self.categoryName) { meals in
             DispatchQueue.main.async {
-                if let categories = categories {
-                    self.categories = categories
+                if let meals = meals {
+                    self.meals = meals
                     self.setupUI()
                 } else {
                     print("Failed to fetch recipe")
@@ -43,7 +55,7 @@ class BaseViewController: UIViewController {
 
     // MARK: UI Setup
     private func setupUI() {
-        self.navigationItem.title = "Home"
+        self.navigationItem.title = self.categoryName
         self.view.backgroundColor = .systemBackground
 
         self.view.addSubview(self.tableview)
@@ -58,18 +70,18 @@ class BaseViewController: UIViewController {
     }
 }
 
-extension BaseViewController: UITableViewDelegate, UITableViewDataSource {
+extension CategoriesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.categories.count
+        return self.meals.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableview.dequeueReusableCell(withIdentifier: CategoriesTableViewCell.identifier, for: indexPath) as? CategoriesTableViewCell else {
+        guard let cell = tableview.dequeueReusableCell(withIdentifier: MealsTableViewCell.identifier, for: indexPath) as? MealsTableViewCell else {
             fatalError("Unable to Deque Cell")
         }
 
-        let category = categories[indexPath.row]
-        cell.configure(with: category)
+        let meal = meals[indexPath.row]
+        cell.configure(with: meal)
         return cell
     }
 
@@ -79,8 +91,16 @@ extension BaseViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableview.deselectRow(at: indexPath, animated: true)
-        let viewController = CategoriesViewController(categoryName: categories[indexPath.row].name)
-        self.navigationController?.pushViewController(viewController, animated: true)
+
+        APICalls.fetchRecipe(recipeID: meals[indexPath.row].id) { recipe in
+            DispatchQueue.main.async {
+                if let recipe = recipe {
+                    let viewController = RecipeDetailViewController(recipe: recipe)
+                    self.navigationController?.pushViewController(viewController, animated: true)
+                } else {
+                    print("Failed to fetch recipe")
+                }
+            }
+        }
     }
 }
-
