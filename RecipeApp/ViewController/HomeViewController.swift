@@ -21,7 +21,7 @@ class HomeViewController: BaseViewController {
             DispatchQueue.main.async {
                 if let categories = categories {
                     self.data = categories
-                    self.tableView.reloadData()
+                    self.collectionView.reloadData()
                 } else {
                     print("Failed to fetch recipe")
                 }
@@ -30,16 +30,19 @@ class HomeViewController: BaseViewController {
     }
 
     // MARK: UI Setup
-    override func setupTableView() {
-        super.setupTableView()
-        self.tableView.register(CategoriesTableViewCell.self,
-                                forCellReuseIdentifier: CategoriesTableViewCell.identifier)
+    override func setupCollectionView() {
+        super.setupCollectionView()
+        self.collectionView.register(CategoriesCollectionViewCell.self,
+                                     forCellWithReuseIdentifier: CategoriesCollectionViewCell.identifier)
     }
 }
 
+// MARK: UICollectionView Delegates
 extension HomeViewController {
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CategoriesTableViewCell.identifier, for: indexPath) as? CategoriesTableViewCell else {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: CategoriesCollectionViewCell.identifier,
+            for: indexPath) as? CategoriesCollectionViewCell else {
             fatalError("Unable to Deque Cell")
         }
 
@@ -51,8 +54,8 @@ extension HomeViewController {
         return cell
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.tableView.deselectRow(at: indexPath, animated: true)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.collectionView.deselectItem(at: indexPath, animated: true)
 
         guard let category = data[indexPath.row] as? Category else {
             print("Error converting value")

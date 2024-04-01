@@ -26,7 +26,7 @@ class SearchViewController: BaseViewController {
             DispatchQueue.main.async {
                 if let categories = categories {
                     self.data = categories
-                    self.tableView.reloadData()
+                    self.collectionView.reloadData()
                 } else {
                     print("Failed to fetch recipe")
                 }
@@ -35,10 +35,10 @@ class SearchViewController: BaseViewController {
     }
 
     // MARK: UI Setup
-    override func setupTableView() {
-        super.setupTableView()
-        self.tableView.register(SearchTableViewCell.self,
-                                forCellReuseIdentifier: SearchTableViewCell.identifier)
+    override func setupCollectionView() {
+        super.setupCollectionView()
+        self.collectionView.register(SearchCollectionViewCell.self,
+                                     forCellWithReuseIdentifier: SearchCollectionViewCell.identifier)
     }
 
     private func setupSearchBar() {
@@ -52,9 +52,12 @@ class SearchViewController: BaseViewController {
     }
 }
 
+// MARK: UICollectionView Delegates
 extension SearchViewController {
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SearchTableViewCell.identifier, for: indexPath) as? SearchTableViewCell else {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: SearchCollectionViewCell.identifier,
+            for: indexPath) as? SearchCollectionViewCell else {
             fatalError("Unable to Deque Cell")
         }
 
@@ -66,8 +69,8 @@ extension SearchViewController {
         return cell
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.tableView.deselectRow(at: indexPath, animated: true)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.collectionView.deselectItem(at: indexPath, animated: true)
 
         guard let category = data[indexPath.row] as? Category else {
             print("Error converting value")
@@ -79,9 +82,10 @@ extension SearchViewController {
     }
 }
 
+// MARK: UISearchBar Delegates
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder() // Dismiss the keyboard
+        searchBar.resignFirstResponder()
         guard let searchText = searchBar.text, !searchText.isEmpty else {
             return
         }

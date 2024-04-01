@@ -1,15 +1,15 @@
 //
-//  MealsTableViewCell.swift
+//  MealsCollectionViewCell.swift
 //  RecipeApp
 //
-//  Created by Shivam on 3/30/24.
+//  Created by Shivam on 4/1/24.
 //
 
 import UIKit
 
-class MealsTableViewCell: BaseTableViewCell {
+class MealsCollectionViewCell: BaseCollectionViewCell {
     
-    static let identifier = "MealsTableViewCell"
+    static let identifier = "MealsCollectionViewCell"
 
     // MARK: Variables
     private(set) var meal: Meal!

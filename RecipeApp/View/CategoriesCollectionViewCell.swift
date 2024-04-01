@@ -1,15 +1,15 @@
 //
-//  CategoriesTableViewCell.swift
+//  CategoriesCollectionViewCell.swift
 //  RecipeApp
 //
-//  Created by Shivam on 3/27/24.
+//  Created by Shivam on 4/1/24.
 //
 
 import UIKit
 
-class CategoriesTableViewCell: BaseTableViewCell {
+class CategoriesCollectionViewCell: BaseCollectionViewCell {
 
-    static let identifier = "CategoriesTableViewCell"
+    static let identifier = "CategoriesCollectionViewCell"
 
     // MARK: Variables
     private(set) var category: Category!

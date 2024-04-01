@@ -31,10 +31,10 @@ class MealsViewController: BaseViewController {
     }
 
     // MARK: UI Setup
-    override func setupTableView() {
-        super.setupTableView()
-        self.tableView.register(MealsTableViewCell.self,
-                                forCellReuseIdentifier: MealsTableViewCell.identifier)
+    override func setupCollectionView() {
+        super.setupCollectionView()
+        self.collectionView.register(MealsCollectionViewCell.self,
+                                     forCellWithReuseIdentifier: MealsCollectionViewCell.identifier)
     }
 
     // MARK: Helper functions
@@ -43,10 +43,10 @@ class MealsViewController: BaseViewController {
             DispatchQueue.main.async {
                 if let meals = meals {
                     self.data = meals
-                    self.tableView.reloadData()
+                    self.collectionView.reloadData()
                 } else {
                     self.data = []
-                    self.tableView.reloadData()
+                    self.collectionView.reloadData()
                     let message = "No results found"
                     let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
                     let okAction = UIAlertAction(title: "OK", style: .default) { _ in
@@ -71,9 +71,12 @@ class MealsViewController: BaseViewController {
     }
 }
 
+// MARK: UICollectionView Delegates
 extension MealsViewController {
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MealsTableViewCell.identifier, for: indexPath) as? MealsTableViewCell else {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: MealsCollectionViewCell.identifier,
+            for: indexPath) as? MealsCollectionViewCell else {
             fatalError("Unable to Deque Cell")
         }
 
@@ -85,8 +88,8 @@ extension MealsViewController {
         return cell
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.tableView.deselectRow(at: indexPath, animated: true)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.collectionView.deselectItem(at: indexPath, animated: true)
 
         guard let meal = data[indexPath.row] as? Meal else {
             print("Error converting value")

@@ -17,18 +17,21 @@ class RecipeDetailViewController: UIViewController {
 
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
 
     private let contentView: UIView = {
         let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
     private let recipeImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(systemName: "questionmark")
-        image.contentMode = .scaleAspectFit
+        image.contentMode = .scaleAspectFill
+        image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
 
@@ -38,6 +41,7 @@ class RecipeDetailViewController: UIViewController {
         label.numberOfLines = 0
         label.font = .systemFont(ofSize: 22, weight: .semibold)
         label.text = "Error"
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
@@ -46,6 +50,7 @@ class RecipeDetailViewController: UIViewController {
         label.textAlignment = .left
         label.numberOfLines = 0
         label.attributedText = NSAttributedString(string: "Error")
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
@@ -55,6 +60,7 @@ class RecipeDetailViewController: UIViewController {
         label.numberOfLines = 0
         label.font = .systemFont(ofSize: 12, weight: .regular)
         label.text = "Error"
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
@@ -64,6 +70,8 @@ class RecipeDetailViewController: UIViewController {
         vStack.spacing = 8
         vStack.distribution = .fill
         vStack.alignment = .leading
+        vStack.backgroundColor = .white
+        vStack.translatesAutoresizingMaskIntoConstraints = false
         return vStack
     }()
 
@@ -92,11 +100,6 @@ class RecipeDetailViewController: UIViewController {
         self.contentView.addSubview(recipeImage)
         self.contentView.addSubview(vStack)
 
-        self.scrollView.translatesAutoresizingMaskIntoConstraints = false
-        self.contentView.translatesAutoresizingMaskIntoConstraints = false
-        self.recipeImage.translatesAutoresizingMaskIntoConstraints = false
-        self.vStack.translatesAutoresizingMaskIntoConstraints = false
-
         let height = contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
         height.priority = UILayoutPriority(1)
         height.isActive = true
@@ -120,10 +123,20 @@ class RecipeDetailViewController: UIViewController {
             self.recipeImage.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 1),
             self.recipeImage.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 9/16),
 
-            self.vStack.topAnchor.constraint(equalTo: recipeImage.bottomAnchor, constant: 16),
-            self.vStack.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8),
-            self.vStack.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -8),
-            self.vStack.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
+            self.vStack.topAnchor.constraint(equalTo: recipeImage.bottomAnchor),
+            self.vStack.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+            self.vStack.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
+            self.vStack.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
+
+            self.recipeName.topAnchor.constraint(equalTo: self.vStack.topAnchor, constant: 12),
+            self.recipeName.leadingAnchor.constraint(equalTo: self.vStack.leadingAnchor, constant: 12),
+            self.recipeName.trailingAnchor.constraint(equalTo: self.vStack.trailingAnchor, constant: -12),
+
+            self.recipeIngredients.leadingAnchor.constraint(equalTo: self.recipeName.leadingAnchor),
+            self.recipeIngredients.trailingAnchor.constraint(equalTo: self.recipeName.trailingAnchor),
+
+            self.recipeInstruction.leadingAnchor.constraint(equalTo: self.recipeName.leadingAnchor),
+            self.recipeInstruction.trailingAnchor.constraint(equalTo: self.recipeName.trailingAnchor)
         ])
         self.configure()
     }
