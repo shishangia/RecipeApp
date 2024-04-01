@@ -8,35 +8,15 @@
 import Foundation
 
 class APICalls {
-    private static func fetchData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            completion(data, response, error)
-        }
-        task.resume()
+
+    // MARK: Enum
+    public enum FetchType {
+        case byCategory(String)
+        case bySearch(String)
+        case byArea(String)
     }
 
-    private static func handleResponse<T>(data: Data?, response: URLResponse?, error: Error?, completion: @escaping (T?) -> Void, parse: (Data) -> T?) {
-        if let error = error {
-            print("Error: \(error)")
-            completion(nil)
-            return
-        }
-
-        guard let data = data else {
-            print("No data received")
-            completion(nil)
-            return
-        }
-
-        guard let parsedData = parse(data) else {
-            print("Failed to parse data.")
-            completion(nil)
-            return
-        }
-
-        completion(parsedData)
-    }
-
+    // MARK: Public functions
     public static func fetchRecipe(recipeID: String,
                                    completion: @escaping (Recipe?) -> Void) {
         guard let apiURL = URL(string: "https://www.themealdb.com/api/json/v1/1/lookup.php?i=\(recipeID)") else {
@@ -72,12 +52,33 @@ class APICalls {
         }
     }
 
-    public static func fetchMeals(mealCategory: String,
+    public static func fetchMeals(fetchType: FetchType,
                                   completion: @escaping ([Meal]?) -> Void) {
-        guard let apiURL = URL(string: "https://www.themealdb.com/api/json/v1/1/filter.php?c=\(mealCategory)") else {
-            print("Invalid URL")
-            completion(nil)
-            return
+        let apiURL: URL
+        
+        switch fetchType {
+        case .byCategory(let mealCategory):
+            guard let url = URL(string: "https://www.themealdb.com/api/json/v1/1/filter.php?c=\(mealCategory)") else {
+                print("Invalid URL")
+                completion(nil)
+                return
+            }
+            apiURL = url
+            
+        case .bySearch(let searchKey):
+            guard let url = URL(string: "https://www.themealdb.com/api/json/v1/1/search.php?s=\(searchKey)") else {
+                print("Invalid URL")
+                completion(nil)
+                return
+            }
+            apiURL = url
+        case .byArea(let area):
+            guard let url = URL(string: "https://www.themealdb.com/api/json/v1/1/filter.php?a=\(area)") else {
+                print("Invalid URL")
+                completion(nil)
+                return
+            }
+            apiURL = url
         }
 
         fetchData(from: apiURL) { data, response, error in
@@ -127,5 +128,60 @@ class APICalls {
                 return fetchedCategories
             }
         }
+    }
+
+    public static func fetchAreas(completion: @escaping ([Category]?) -> Void) {
+        guard let apiURL = URL(string: "https://www.themealdb.com/api/json/v1/1/list.php?a=list") else {
+            print("Invalid URL")
+            completion(nil)
+            return
+        }
+
+        fetchData(from: apiURL) { data, response, error in
+            handleResponse(data: data, response: response, error: error, completion: completion) { data in
+                guard let jsonDictionary = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                      let categories = jsonDictionary["meals"] as? [[String: Any]] else {
+                    print("Failed to decode JSON data.")
+                    return nil
+                }
+                var fetchedCategories: [Category] = []
+                for category in categories {
+                    let name = category["strArea"] as? String ?? ""
+                    let newCategory = Category(id: "1", name: name)
+                    fetchedCategories.append(newCategory)
+                }
+                return fetchedCategories
+            }
+        }
+    }
+
+    // MARK: Helper functions
+    private static func fetchData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            completion(data, response, error)
+        }
+        task.resume()
+    }
+
+    private static func handleResponse<T>(data: Data?, response: URLResponse?, error: Error?, completion: @escaping (T?) -> Void, parse: (Data) -> T?) {
+        if let error = error {
+            print("Error: \(error)")
+            completion(nil)
+            return
+        }
+
+        guard let data = data else {
+            print("No data received")
+            completion(nil)
+            return
+        }
+
+        guard let parsedData = parse(data) else {
+            print("Failed to parse data.")
+            completion(nil)
+            return
+        }
+
+        completion(parsedData)
     }
 }

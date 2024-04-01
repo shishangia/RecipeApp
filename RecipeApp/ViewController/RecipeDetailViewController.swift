@@ -80,7 +80,6 @@ class RecipeDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.view.backgroundColor = .systemBackground
         self.navigationItem.title = self.recipe.name
         self.navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(title: "Back", style: .done, target: nil, action: nil)
@@ -89,44 +88,43 @@ class RecipeDetailViewController: UIViewController {
     // MARK: Setup UI
     private func setupUI() {
         self.view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
+        self.scrollView.addSubview(contentView)
         self.contentView.addSubview(recipeImage)
         self.contentView.addSubview(vStack)
 
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        recipeImage.translatesAutoresizingMaskIntoConstraints = false
-        vStack.translatesAutoresizingMaskIntoConstraints = false
+        self.scrollView.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.translatesAutoresizingMaskIntoConstraints = false
+        self.recipeImage.translatesAutoresizingMaskIntoConstraints = false
+        self.vStack.translatesAutoresizingMaskIntoConstraints = false
 
         let height = contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
         height.priority = UILayoutPriority(1)
         height.isActive = true
 
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
-            scrollView.heightAnchor.constraint(equalTo: view.layoutMarginsGuide.heightAnchor),
-            scrollView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            self.scrollView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            self.scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            self.scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            self.scrollView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
+            self.scrollView.heightAnchor.constraint(equalTo: view.layoutMarginsGuide.heightAnchor),
+            self.scrollView.widthAnchor.constraint(equalTo: view.widthAnchor),
          
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            self.contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            self.contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            self.contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            self.contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            self.contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
 
-            recipeImage.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 8),
-            recipeImage.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
-            recipeImage.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 1),
-            recipeImage.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 9/16),
+            self.recipeImage.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 8),
+            self.recipeImage.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
+            self.recipeImage.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 1),
+            self.recipeImage.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 9/16),
 
-            vStack.topAnchor.constraint(equalTo: recipeImage.bottomAnchor, constant: 16),
-            vStack.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8),
-            vStack.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -8),
-            vStack.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
+            self.vStack.topAnchor.constraint(equalTo: recipeImage.bottomAnchor, constant: 16),
+            self.vStack.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8),
+            self.vStack.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -8),
+            self.vStack.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
         ])
-
         self.configure()
     }
 
