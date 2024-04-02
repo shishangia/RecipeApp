@@ -60,3 +60,8 @@ We have plans to enhance RecipeApp with the following features in the future:
 - Ability to create and share custom recipes.
 - Integration with external APIs to fetch additional recipe data.
 - Support for dietary restrictions and preferences.
+
+
+## Note from the creator
+
+Working on this Recipe App was a blast! It really put my JSON parsing, UI skills, and thread handling to the test. Designing the interface, coding the JSON parsing backend, and making sure everything ran smoothly with threads was both challenging and rewarding. This project definitely leveled up my Swift and iOS development skills. It was a fantastic learning experience!
