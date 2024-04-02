@@ -22,8 +22,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                                      image: UIImage(systemName: "house"), selectedImage: nil)
 
         let searchViewController = UINavigationController(rootViewController: SearchViewController())
-        searchViewController.tabBarItem = UITabBarItem(title: "Search",
+        searchViewController.tabBarItem = UITabBarItem(title: "Browse",
                                                        image: UIImage(systemName: "magnifyingglass"), selectedImage: nil)
+        tabBarController.tabBar.tintColor = UIColor.orange
+        homeViewController.navigationBar.tintColor = UIColor.orange
+        searchViewController.navigationBar.tintColor = UIColor.orange
 
         tabBarController.viewControllers = [homeViewController, searchViewController]
 

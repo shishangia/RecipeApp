@@ -8,6 +8,8 @@
 import Foundation
 
 struct Recipe {
+
+    // MARK: Variables
     var id: String
     var name: String
     var instruction: String
@@ -17,16 +19,25 @@ struct Recipe {
         return URL(string: "https://www.themealdb.com/images/ingredients/Lime-Small.png")
     }()
 
+    // MARK: Setter
     mutating func setImageURL(_ url: URL?) {
         imageURL = url
     }
 }
 
-struct Ingredient {
+struct Ingredient: Equatable {
+
+    // MARK: Variables
     let ingredient: String
     let measure: String
+
+    // MARK: Equatable Protocol
+    static func ==(lhs: Ingredient, rhs: Ingredient) -> Bool {
+        return lhs.ingredient == rhs.ingredient && lhs.measure == rhs.measure
+    }
 }
 
+// MARK: Mock
 extension Recipe {
     public static func mock() -> Recipe {
         return Recipe(id: "52772",

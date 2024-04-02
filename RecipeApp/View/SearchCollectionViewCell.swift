@@ -12,9 +12,10 @@ class SearchCollectionViewCell: BaseCollectionViewCell {
     static let identifier = "SearchCollectionViewCell"
 
     // MARK: Variables
-    private(set) var category: Category!
+    private(set) var area: Area!
 
-    public func configure(name: String) {
-        self.cellLabel.text = name
+    public func configure(area: Area) {
+        self.area = area
+        configure(name: area.name, imageURL: area.imageURL)
     }
 }

@@ -7,7 +7,9 @@
 
 import Foundation
 
-struct Meal: Decodable {
+struct Meal {
+
+    // MARK: Variables
     let id: String
     let name: String
 
@@ -15,11 +17,13 @@ struct Meal: Decodable {
         return URL(string: "https://www.themealdb.com/images/ingredients/Lime-Small.png")
     }()
 
+    // MARK: Setter
     mutating func setImageURL(_ url: URL?) {
         imageURL = url
     }
 }
 
+// MARK: Mock
 extension Meal {
     public static func mock() -> [Meal] {
         return [

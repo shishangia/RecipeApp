@@ -24,7 +24,7 @@ class BaseCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 15, weight: .semibold)
-        label.numberOfLines = 1
+        label.numberOfLines = 0
         label.text = "Error"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -54,7 +54,7 @@ class BaseCollectionViewCell: UICollectionViewCell {
             self.cellLabel.topAnchor.constraint(equalTo: self.cellImage.bottomAnchor),
             self.cellLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             self.cellLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            self.cellLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            self.cellLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -4)
         ])
 
         self.cellImage.layer.cornerRadius = 20

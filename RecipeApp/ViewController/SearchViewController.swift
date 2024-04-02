@@ -21,19 +21,6 @@ class SearchViewController: BaseViewController {
         self.fetchData()
     }
 
-    private func fetchData() {
-        APICalls.fetchAreas { categories in
-            DispatchQueue.main.async {
-                if let categories = categories {
-                    self.data = categories
-                    self.collectionView.reloadData()
-                } else {
-                    print("Failed to fetch recipe")
-                }
-            }
-        }
-    }
-
     // MARK: UI Setup
     override func setupCollectionView() {
         super.setupCollectionView()
@@ -50,6 +37,20 @@ class SearchViewController: BaseViewController {
         self.searchBar.placeholder = "Search Meals"
         navigationItem.titleView = searchBar
     }
+
+    // MARK: Helper functions
+    private func fetchData() {
+        APICalls.fetchAreas { areas in
+            DispatchQueue.main.async {
+                if let areas = areas {
+                    self.data = areas
+                    self.collectionView.reloadData()
+                } else {
+                    print("Failed to fetch recipe")
+                }
+            }
+        }
+    }
 }
 
 // MARK: UICollectionView Delegates
@@ -61,23 +62,23 @@ extension SearchViewController {
             fatalError("Unable to Deque Cell")
         }
 
-        guard let category = data[indexPath.row] as? Category else {
+        guard let area = data[indexPath.row] as? Area else {
             print("Error converting value")
             return cell
         }
-        cell.configure(name: category.name)
+        cell.configure(area: area)
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.collectionView.deselectItem(at: indexPath, animated: true)
 
-        guard let category = data[indexPath.row] as? Category else {
+        guard let area = data[indexPath.row] as? Area else {
             print("Error converting value")
             return
         }
 
-        let viewController = MealsViewController(fetchType: .byArea(category.name))
+        let viewController = MealsViewController(fetchType: .byArea(area.name))
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

@@ -58,8 +58,8 @@ class RecipeDetailViewController: UIViewController {
         let label = UILabel()
         label.textAlignment = .left
         label.numberOfLines = 0
-        label.font = .systemFont(ofSize: 12, weight: .regular)
-        label.text = "Error"
+        label.font = .systemFont(ofSize: 15, weight: .regular)
+        label.attributedText = NSAttributedString(string: "Error")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -141,6 +141,7 @@ class RecipeDetailViewController: UIViewController {
         self.configure()
     }
 
+    // MARK: Helper functions
     private func configure() {
         guard let url = self.recipe.imageURL else {
             print("Invalid URL")
@@ -162,18 +163,22 @@ class RecipeDetailViewController: UIViewController {
         }.resume()
 
         self.recipeName.text = self.recipe.name
-        self.recipeInstruction.text = self.recipe.instruction
+        let instructionString = NSMutableAttributedString(string: "Instructions: \n",
+                                                         attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 18)])
+        instructionString.append(NSAttributedString(string: self.recipe.instruction))
+        self.recipeInstruction.attributedText = instructionString
 
         let ingredientString = NSMutableAttributedString(string: "Ingredients: \n",
-                                                         attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 15)])
-        let boldAttribute = [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 12)]
-        let normalAttribute = [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 12)]
+                                                         attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 18)])
+        let boldAttribute = [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 15)]
+        let normalAttribute = [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15)]
         for ingredient in self.recipe.ingredients {
             let boldText = ingredient.ingredient
-            let boldString = NSAttributedString(string: boldText + ": ", attributes: boldAttribute)
+            let boldString = NSAttributedString(string: "  • " + boldText + ": ", attributes: boldAttribute)
             ingredientString.append(boldString)
 
-            let normalString = NSAttributedString(string: ingredient.measure + "\n", attributes: normalAttribute)
+            let normalText = ingredient == self.recipe.ingredients.last ? ingredient.measure : ingredient.measure + "\n"
+            let normalString = NSAttributedString(string: normalText, attributes: normalAttribute)
             ingredientString.append(normalString)
         }
         self.recipeIngredients.attributedText = ingredientString

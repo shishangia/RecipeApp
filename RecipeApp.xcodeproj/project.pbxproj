@@ -31,6 +31,7 @@
 		404A17562BBB3F0D00793610 /* CategoriesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404A17552BBB3F0D00793610 /* CategoriesCollectionViewCell.swift */; };
 		404A17582BBB442000793610 /* MealsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404A17572BBB442000793610 /* MealsCollectionViewCell.swift */; };
 		404A175A2BBB453300793610 /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404A17592BBB453300793610 /* SearchCollectionViewCell.swift */; };
+		404A175C2BBBA73900793610 /* Area.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404A175B2BBBA73900793610 /* Area.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,7 @@
 		404A17552BBB3F0D00793610 /* CategoriesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCollectionViewCell.swift; sourceTree = "<group>"; };
 		404A17572BBB442000793610 /* MealsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsCollectionViewCell.swift; sourceTree = "<group>"; };
 		404A17592BBB453300793610 /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
+		404A175B2BBBA73900793610 /* Area.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Area.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +185,7 @@
 				404A17382BB4A47D00793610 /* Category.swift */,
 				404A173E2BB559A300793610 /* Recipe.swift */,
 				404A17402BB55DEA00793610 /* Meal.swift */,
+				404A175B2BBBA73900793610 /* Area.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -360,6 +363,7 @@
 				404A174E2BB8FCD700793610 /* BaseViewController.swift in Sources */,
 				404A17062BB3A93F00793610 /* RecipeApp.xcdatamodeld in Sources */,
 				404A175A2BBB453300793610 /* SearchCollectionViewCell.swift in Sources */,
+				404A175C2BBBA73900793610 /* Area.swift in Sources */,
 				404A17352BB49EEB00793610 /* Constants.swift in Sources */,
 				404A17462BB7A20B00793610 /* APICalls.swift in Sources */,
 				404A17392BB4A47D00793610 /* Category.swift in Sources */,

@@ -16,6 +16,14 @@ class HomeViewController: BaseViewController {
         self.fetchData()
     }
 
+    // MARK: UI Setup
+    override func setupCollectionView() {
+        super.setupCollectionView()
+        self.collectionView.register(CategoriesCollectionViewCell.self,
+                                     forCellWithReuseIdentifier: CategoriesCollectionViewCell.identifier)
+    }
+
+    // MARK: Helper functions
     private func fetchData() {
         APICalls.fetchCategories { categories in
             DispatchQueue.main.async {
@@ -27,13 +35,6 @@ class HomeViewController: BaseViewController {
                 }
             }
         }
-    }
-
-    // MARK: UI Setup
-    override func setupCollectionView() {
-        super.setupCollectionView()
-        self.collectionView.register(CategoriesCollectionViewCell.self,
-                                     forCellWithReuseIdentifier: CategoriesCollectionViewCell.identifier)
     }
 }
 

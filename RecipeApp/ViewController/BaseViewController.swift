@@ -20,6 +20,7 @@ class BaseViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .systemBackground
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.showsVerticalScrollIndicator = false
         return collectionView
     }()
 
@@ -66,6 +67,6 @@ extension BaseViewController: UICollectionViewDataSource, UICollectionViewDelega
         let paddingSpace = 10 * 3
         let availableWidth = collectionView.frame.width - CGFloat(paddingSpace)
         let widthPerItem = availableWidth / 2
-        return CGSize(width: widthPerItem, height: widthPerItem + 25)
+        return CGSize(width: widthPerItem, height: widthPerItem + 50)
     }
 }

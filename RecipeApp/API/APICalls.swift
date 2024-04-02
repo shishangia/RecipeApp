@@ -41,8 +41,8 @@ class APICalls {
                 for i in 1...20 {
                     if let ingredient = meal["strIngredient\(i)"] as? String,
                        let measure = meal["strMeasure\(i)"] as? String,
-                       !ingredient.isEmpty && !measure.isEmpty {
-                        ingredients.append(Ingredient(ingredient: ingredient, measure: measure))
+                       !ingredient.trimmingCharacters(in: .whitespaces).isEmpty && !measure.trimmingCharacters(in: .whitespaces).isEmpty {
+                        ingredients.append(Ingredient(ingredient: ingredient.capitalized, measure: measure))
                     }
                 }
                 var recipe = Recipe(id: id, name: name, instruction: instruction, ingredients: ingredients)
@@ -130,7 +130,7 @@ class APICalls {
         }
     }
 
-    public static func fetchAreas(completion: @escaping ([Category]?) -> Void) {
+    public static func fetchAreas(completion: @escaping ([Area]?) -> Void) {
         guard let apiURL = URL(string: "https://www.themealdb.com/api/json/v1/1/list.php?a=list") else {
             print("Invalid URL")
             completion(nil)
@@ -140,17 +140,17 @@ class APICalls {
         fetchData(from: apiURL) { data, response, error in
             handleResponse(data: data, response: response, error: error, completion: completion) { data in
                 guard let jsonDictionary = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-                      let categories = jsonDictionary["meals"] as? [[String: Any]] else {
+                      let areas = jsonDictionary["meals"] as? [[String: Any]] else {
                     print("Failed to decode JSON data.")
                     return nil
                 }
-                var fetchedCategories: [Category] = []
-                for category in categories {
-                    let name = category["strArea"] as? String ?? ""
-                    let newCategory = Category(id: "1", name: name)
-                    fetchedCategories.append(newCategory)
+                var fetchedAreas: [Area] = []
+                for area in areas {
+                    let name = area["strArea"] as? String ?? ""
+                    let newArea = Area(name: name)
+                    fetchedAreas.append(newArea)
                 }
-                return fetchedCategories
+                return fetchedAreas
             }
         }
     }
