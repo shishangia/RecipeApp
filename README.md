@@ -31,19 +31,23 @@ To install RecipeApp, follow these steps:
 ## Demo
 
 1. Browse recipes in a particular categories and view it's detail.
-<div align="center">
-    <img src="https://github.com/shishangia/RecipeApp/blob/main/Demo/Categories.gif" alt="Categories Demo">
-</div>
+
+![](https://github.com/shishangia/RecipeApp/blob/main/Demo/Categories.gif)
+<br>
+<br>
 
 2. Browse recipes in a particular area and view it's detail.
-<div align="center">
-    <img src="https://github.com/shishangia/RecipeApp/blob/main/Demo/Areas.gif" alt="Areas Demo">
-</div>
+
+![](https://github.com/shishangia/RecipeApp/blob/main/Demo/Areas.gif)
+<br>
+<br>
 
 3. Search recipe by name and view it's detail.
-<div align="center">
-    <img src="https://github.com/shishangia/RecipeApp/blob/main/Demo/Search.gif" alt="Search Demo">
-</div>
+
+![](https://github.com/shishangia/RecipeApp/blob/main/Demo/Search.gif)
+<br>
+<br>
+
 
 ## Future Additions
 
