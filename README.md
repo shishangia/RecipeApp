@@ -53,6 +53,7 @@ To install RecipeApp, follow these steps:
 
 We have plans to enhance RecipeApp with the following features in the future:
 
+- Accessibility improvements for visually impaired users.
 - Checklist for the recipe ingredients which can additionally be used as a shopping list.
 - User authentication and personalized recipe recommendations.
 - Save favorite recipes for quick access.
