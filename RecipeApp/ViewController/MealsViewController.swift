@@ -9,14 +9,12 @@ import UIKit
 
 class MealsViewController: BaseViewController {
 
-    // MARK: Enum
-
     // MARK: Variables
-    private var fetchType: APICalls.FetchType
+    let viewModel: MealsViewModel
 
     // MARK: Lifecycle
     init(fetchType: APICalls.FetchType) {
-        self.fetchType = fetchType
+        self.viewModel = MealsViewModel(fetchType: fetchType)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -26,7 +24,7 @@ class MealsViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupNavigationTitle()
+        self.navigationItem.title = self.viewModel.setupNavigationTitle()
         self.fetchData()
     }
 
@@ -39,14 +37,12 @@ class MealsViewController: BaseViewController {
 
     // MARK: Helper functions
     private func fetchData() {
-        APICalls.fetchMeals(fetchType: fetchType) { meals in
+        self.viewModel.fetchData { [weak self] in
+            guard let self = self else { return }
+
             DispatchQueue.main.async {
-                if let meals = meals {
-                    self.data = meals
-                    self.collectionView.reloadData()
-                } else {
-                    self.data = []
-                    self.collectionView.reloadData()
+                self.collectionView.reloadData()
+                if self.viewModel.meals.isEmpty {
                     let message = "No results found"
                     let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
                     let okAction = UIAlertAction(title: "OK", style: .default) { _ in
@@ -58,21 +54,15 @@ class MealsViewController: BaseViewController {
             }
         }
     }
-
-    private func setupNavigationTitle() {
-        switch fetchType {
-        case .byCategory(let categoryName):
-            self.navigationItem.title = categoryName
-        case .bySearch(let searchKey):
-            self.navigationItem.title = "Search Results for \(searchKey)"
-        case .byArea(let area):
-            self.navigationItem.title = "Search Results for \(area)"
-        }
-    }
 }
 
 // MARK: UICollectionView Delegates
 extension MealsViewController {
+
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.viewModel.meals.count
+    }
+
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: MealsCollectionViewCell.identifier,
@@ -80,10 +70,7 @@ extension MealsViewController {
             fatalError("Unable to Deque Cell")
         }
 
-        guard let meal = data[indexPath.row] as? Meal else {
-            print("Error converting value")
-            return cell
-        }
+        let meal = self.viewModel.meals[indexPath.row]
         cell.configure(with: meal)
         return cell
     }
@@ -91,20 +78,8 @@ extension MealsViewController {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.collectionView.deselectItem(at: indexPath, animated: true)
 
-        guard let meal = data[indexPath.row] as? Meal else {
-            print("Error converting value")
-            return
-        }
-
-        APICalls.fetchRecipe(recipeID: meal.id) { recipe in
-            DispatchQueue.main.async {
-                if let recipe = recipe {
-                    let viewController = RecipeDetailViewController(recipe: recipe)
-                    self.navigationController?.pushViewController(viewController, animated: true)
-                } else {
-                    print("Failed to fetch recipe")
-                }
-            }
-        }
+        let meal = self.viewModel.meals[indexPath.row]
+        let viewController = RecipeDetailViewController(recipeID: meal.id)
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

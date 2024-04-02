@@ -9,9 +9,9 @@ import UIKit
 
 class SearchViewController: BaseViewController {
 
-
     // MARK: Variables
     private let searchBar = UISearchBar()
+    private let viewModel = SearchViewModel()
 
     // MARK: Lifecycle
     override func viewDidLoad() {
@@ -40,14 +40,11 @@ class SearchViewController: BaseViewController {
 
     // MARK: Helper functions
     private func fetchData() {
-        APICalls.fetchAreas { areas in
+        self.viewModel.fetchData { [weak self] in
+            guard let self = self else { return }
+
             DispatchQueue.main.async {
-                if let areas = areas {
-                    self.data = areas
-                    self.collectionView.reloadData()
-                } else {
-                    print("Failed to fetch recipe")
-                }
+                self.collectionView.reloadData()
             }
         }
     }
@@ -55,6 +52,10 @@ class SearchViewController: BaseViewController {
 
 // MARK: UICollectionView Delegates
 extension SearchViewController {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.viewModel.areas.count
+    }
+
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: SearchCollectionViewCell.identifier,
@@ -62,10 +63,7 @@ extension SearchViewController {
             fatalError("Unable to Deque Cell")
         }
 
-        guard let area = data[indexPath.row] as? Area else {
-            print("Error converting value")
-            return cell
-        }
+        let area = self.viewModel.areas[indexPath.row]
         cell.configure(area: area)
         return cell
     }
@@ -73,11 +71,7 @@ extension SearchViewController {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.collectionView.deselectItem(at: indexPath, animated: true)
 
-        guard let area = data[indexPath.row] as? Area else {
-            print("Error converting value")
-            return
-        }
-
+        let area = self.viewModel.areas[indexPath.row]
         let viewController = MealsViewController(fetchType: .byArea(area.name))
         self.navigationController?.pushViewController(viewController, animated: true)
     }

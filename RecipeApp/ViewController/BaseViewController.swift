@@ -9,9 +9,6 @@ import UIKit
 
 class BaseViewController: UIViewController {
 
-    // MARK: Variables
-    public var data: [Any] = []
-
     // MARK: UI Componenets
     public let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -55,7 +52,7 @@ class BaseViewController: UIViewController {
 // MARK: UICollectionView Delegates
 extension BaseViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.data.count
+        return 0
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

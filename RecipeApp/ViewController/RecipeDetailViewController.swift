@@ -6,15 +6,13 @@
 //
 
 import UIKit
-import WebKit
 
 class RecipeDetailViewController: UIViewController {
 
     // MARK: Variables
-    private var recipe: Recipe
+    let viewModel: RecipeDetailViewModel
 
     // MARK: UI Componenets
-
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -76,10 +74,9 @@ class RecipeDetailViewController: UIViewController {
     }()
 
     // MARK: Lifecycle
-    init(recipe: Recipe) {
-        self.recipe = recipe
+    init(recipeID: String) {
+        self.viewModel = RecipeDetailViewModel(recipeID: recipeID)
         super.init(nibName: nil, bundle: nil)
-        self.setupUI()
     }
 
     required init?(coder: NSCoder) {
@@ -88,13 +85,16 @@ class RecipeDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemBackground
-        self.navigationItem.title = self.recipe.name
+        self.navigationItem.title = self.viewModel.recipe.name
         self.navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(title: "Back", style: .done, target: nil, action: nil)
+        self.setupUI()
+        self.fetchData()
     }
 
     // MARK: Setup UI
     private func setupUI() {
+        self.view.backgroundColor = .systemBackground
+
         self.view.addSubview(scrollView)
         self.scrollView.addSubview(contentView)
         self.contentView.addSubview(recipeImage)
@@ -138,49 +138,31 @@ class RecipeDetailViewController: UIViewController {
             self.recipeInstruction.leadingAnchor.constraint(equalTo: self.recipeName.leadingAnchor),
             self.recipeInstruction.trailingAnchor.constraint(equalTo: self.recipeName.trailingAnchor)
         ])
-        self.configure()
     }
 
     // MARK: Helper functions
-    private func configure() {
-        guard let url = self.recipe.imageURL else {
-            print("Invalid URL")
-            return
-        }
+    private func fetchData() {
+        self.viewModel.fetchData { [weak self] in
+            guard let self = self else { return }
 
-        let _: Void = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            if let error = error {
-                print("Error: \(error)")
-                return
-            }
-            guard let data = data else {
-                print("No data received")
-                return
-            }
             DispatchQueue.main.async {
-                self.recipeImage.image = UIImage(data: data)
+                self.view.layoutIfNeeded()
+                self.configure()
             }
-        }.resume()
-
-        self.recipeName.text = self.recipe.name
-        let instructionString = NSMutableAttributedString(string: "Instructions: \n",
-                                                         attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 18)])
-        instructionString.append(NSAttributedString(string: self.recipe.instruction))
-        self.recipeInstruction.attributedText = instructionString
-
-        let ingredientString = NSMutableAttributedString(string: "Ingredients: \n",
-                                                         attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 18)])
-        let boldAttribute = [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 15)]
-        let normalAttribute = [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 15)]
-        for ingredient in self.recipe.ingredients {
-            let boldText = ingredient.ingredient
-            let boldString = NSAttributedString(string: "  • " + boldText + ": ", attributes: boldAttribute)
-            ingredientString.append(boldString)
-
-            let normalText = ingredient == self.recipe.ingredients.last ? ingredient.measure : ingredient.measure + "\n"
-            let normalString = NSAttributedString(string: normalText, attributes: normalAttribute)
-            ingredientString.append(normalString)
         }
-        self.recipeIngredients.attributedText = ingredientString
+    }
+
+    private func configure() {
+        self.viewModel.fetchImage { [weak self] image in
+            guard let self = self else { return }
+
+            DispatchQueue.main.async {
+                self.recipeImage.image = image
+            }
+        }
+        let texts = self.viewModel.configureTexts()
+        self.recipeName.text = texts.name
+        self.recipeInstruction.attributedText = texts.instruction
+        self.recipeIngredients.attributedText = texts.ingredients
     }
 }

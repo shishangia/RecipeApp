@@ -9,6 +9,9 @@ import UIKit
 
 class HomeViewController: BaseViewController {
 
+    // MARK: Variables
+    let viewModel = HomeViewModel()
+
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,14 +28,11 @@ class HomeViewController: BaseViewController {
 
     // MARK: Helper functions
     private func fetchData() {
-        APICalls.fetchCategories { categories in
+        self.viewModel.fetchData { [weak self] in
+            guard let self = self else { return }
+
             DispatchQueue.main.async {
-                if let categories = categories {
-                    self.data = categories
-                    self.collectionView.reloadData()
-                } else {
-                    print("Failed to fetch recipe")
-                }
+                self.collectionView.reloadData()
             }
         }
     }
@@ -40,6 +40,11 @@ class HomeViewController: BaseViewController {
 
 // MARK: UICollectionView Delegates
 extension HomeViewController {
+
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.viewModel.categories.count
+    }
+
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: CategoriesCollectionViewCell.identifier,
@@ -47,10 +52,7 @@ extension HomeViewController {
             fatalError("Unable to Deque Cell")
         }
 
-        guard let category = data[indexPath.row] as? Category else {
-            print("Error converting value")
-            return cell
-        }
+        let category = self.viewModel.categories[indexPath.row]
         cell.configure(with: category)
         return cell
     }
@@ -58,11 +60,7 @@ extension HomeViewController {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.collectionView.deselectItem(at: indexPath, animated: true)
 
-        guard let category = data[indexPath.row] as? Category else {
-            print("Error converting value")
-            return
-        }
-
+        let category = self.viewModel.categories[indexPath.row]
         let viewController = MealsViewController(fetchType: .byCategory(category.name))
         self.navigationController?.pushViewController(viewController, animated: true)
     }
