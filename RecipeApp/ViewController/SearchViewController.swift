@@ -88,3 +88,10 @@ extension SearchViewController: UISearchBarDelegate {
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
+
+// MARK: UIScrollViewDelegate
+extension SearchViewController {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.searchBar.resignFirstResponder()
+    }
+}

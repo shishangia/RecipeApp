@@ -27,8 +27,10 @@ class RecipeDetailViewController: UIViewController {
 
     private let recipeImage: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(systemName: "questionmark")
+        image.image = UIImage(systemName: "questionmark.circle")
         image.contentMode = .scaleAspectFill
+        image.tintColor = UIColor(red: 244/255, green: 244/255, blue: 245/255, alpha: 1)
+        image.transform = CGAffineTransform(scaleX: 0.3, y: 0.3)
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -157,6 +159,7 @@ class RecipeDetailViewController: UIViewController {
             guard let self = self else { return }
 
             DispatchQueue.main.async {
+                self.recipeImage.transform = CGAffineTransform(scaleX: 1, y: 1)
                 self.recipeImage.image = image
             }
         }
