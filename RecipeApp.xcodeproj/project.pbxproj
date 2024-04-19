@@ -13,11 +13,10 @@
 		404A17062BB3A93F00793610 /* RecipeApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 404A17042BB3A93F00793610 /* RecipeApp.xcdatamodeld */; };
 		404A17082BB3A94000793610 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 404A17072BB3A94000793610 /* Assets.xcassets */; };
 		404A170B2BB3A94000793610 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 404A17092BB3A94000793610 /* LaunchScreen.storyboard */; };
-		404A17162BB3A94000793610 /* RecipeAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404A17152BB3A94000793610 /* RecipeAppTests.swift */; };
+		404A17162BB3A94000793610 /* HomeViewControllerUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404A17152BB3A94000793610 /* HomeViewControllerUnitTests.swift */; };
 		404A17202BB3A94000793610 /* RecipeAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404A171F2BB3A94000793610 /* RecipeAppUITests.swift */; };
 		404A17222BB3A94000793610 /* RecipeAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404A17212BB3A94000793610 /* RecipeAppUITestsLaunchTests.swift */; };
 		404A17322BB3B1C700793610 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404A17312BB3B1C700793610 /* HomeViewModel.swift */; };
-		404A17352BB49EEB00793610 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404A17342BB49EEB00793610 /* Constants.swift */; };
 		404A17392BB4A47D00793610 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404A17382BB4A47D00793610 /* Category.swift */; };
 		404A173D2BB5586700793610 /* RecipeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404A173C2BB5586700793610 /* RecipeDetailViewController.swift */; };
 		404A173F2BB559A300793610 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 404A173E2BB559A300793610 /* Recipe.swift */; };
@@ -63,12 +62,11 @@
 		404A170A2BB3A94000793610 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		404A170C2BB3A94000793610 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		404A17112BB3A94000793610 /* RecipeAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipeAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		404A17152BB3A94000793610 /* RecipeAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeAppTests.swift; sourceTree = "<group>"; };
+		404A17152BB3A94000793610 /* HomeViewControllerUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewControllerUnitTests.swift; sourceTree = "<group>"; };
 		404A171B2BB3A94000793610 /* RecipeAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipeAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		404A171F2BB3A94000793610 /* RecipeAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeAppUITests.swift; sourceTree = "<group>"; };
 		404A17212BB3A94000793610 /* RecipeAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		404A17312BB3B1C700793610 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
-		404A17342BB49EEB00793610 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		404A17382BB4A47D00793610 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		404A173C2BB5586700793610 /* RecipeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailViewController.swift; sourceTree = "<group>"; };
 		404A173E2BB559A300793610 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
@@ -149,7 +147,7 @@
 		404A17142BB3A94000793610 /* RecipeAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				404A17152BB3A94000793610 /* RecipeAppTests.swift */,
+				404A17152BB3A94000793610 /* HomeViewControllerUnitTests.swift */,
 			);
 			path = RecipeAppTests;
 			sourceTree = "<group>";
@@ -204,7 +202,6 @@
 				404A17092BB3A94000793610 /* LaunchScreen.storyboard */,
 				404A16FD2BB3A93F00793610 /* SceneDelegate.swift */,
 				404A16FB2BB3A93F00793610 /* AppDelegate.swift */,
-				404A17342BB49EEB00793610 /* Constants.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -371,7 +368,6 @@
 				404A17062BB3A93F00793610 /* RecipeApp.xcdatamodeld in Sources */,
 				404A175A2BBB453300793610 /* SearchCollectionViewCell.swift in Sources */,
 				404A175C2BBBA73900793610 /* Area.swift in Sources */,
-				404A17352BB49EEB00793610 /* Constants.swift in Sources */,
 				404A17462BB7A20B00793610 /* APICalls.swift in Sources */,
 				404A17392BB4A47D00793610 /* Category.swift in Sources */,
 				404A17502BB9072600793610 /* SearchViewController.swift in Sources */,
@@ -388,7 +384,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				404A17162BB3A94000793610 /* RecipeAppTests.swift in Sources */,
+				404A17162BB3A94000793610 /* HomeViewControllerUnitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

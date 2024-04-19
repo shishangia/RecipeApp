@@ -56,14 +56,3 @@ struct Area {
         }
     }
 }
-
-// MARK: Mock
-extension Area {
-    public static func mock() -> [Area] {
-        return [
-            Area(name: "American"),
-            Area(name: "British"),
-            Area(name: "Indian")
-        ]
-    }
-}

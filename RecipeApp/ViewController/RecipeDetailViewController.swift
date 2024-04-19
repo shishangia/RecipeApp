@@ -87,7 +87,6 @@ class RecipeDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = self.viewModel.recipe.name
         self.navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(title: "Back", style: .done, target: nil, action: nil)
         self.setupUI()
         self.fetchData()
@@ -167,5 +166,6 @@ class RecipeDetailViewController: UIViewController {
         self.recipeName.text = texts.name
         self.recipeInstruction.attributedText = texts.instruction
         self.recipeIngredients.attributedText = texts.ingredients
+        self.navigationItem.title = self.viewModel.recipe.name
     }
 }

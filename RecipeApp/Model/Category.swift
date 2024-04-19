@@ -22,14 +22,3 @@ struct Category {
         imageURL = url
     }
 }
-
-// MARK: Mock
-extension Category {
-    public static func mock() -> [Category] {
-        return [
-            Category(id: "1", name: "Beef"),
-            Category(id: "2", name: "Chicken"),
-            Category(id: "3", name: "Dessert")
-        ]
-    }
-}

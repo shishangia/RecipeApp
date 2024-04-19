@@ -9,6 +9,9 @@ import Foundation
 
 class APICalls {
 
+    // MARK: Constants
+    static let APIBaseURL = "https://www.themealdb.com/api/json/v1/1/"
+
     // MARK: Enum
     public enum FetchType {
         case byCategory(String)
@@ -19,7 +22,9 @@ class APICalls {
     // MARK: Public functions
     public static func fetchRecipe(recipeID: String,
                                    completion: @escaping (Recipe?) -> Void) {
-        guard let apiURL = URL(string: "https://www.themealdb.com/api/json/v1/1/lookup.php?i=\(recipeID)") else {
+        var components = URLComponents(string: APIBaseURL + "lookup.php")
+        components?.queryItems = [URLQueryItem(name: "i", value: recipeID)]
+        guard let apiURL = components?.url else {
             print("Invalid URL")
             completion(nil)
             return
@@ -54,31 +59,28 @@ class APICalls {
 
     public static func fetchMeals(fetchType: FetchType,
                                   completion: @escaping ([Meal]?) -> Void) {
-        let apiURL: URL
-        
+        var path = ""
+        var queryItems: [URLQueryItem] = []
+
         switch fetchType {
         case .byCategory(let mealCategory):
-            guard let url = URL(string: "https://www.themealdb.com/api/json/v1/1/filter.php?c=\(mealCategory)") else {
-                print("Invalid URL")
-                completion(nil)
-                return
-            }
-            apiURL = url
-            
+            path = "/filter.php"
+            queryItems.append(URLQueryItem(name: "c", value: mealCategory))
         case .bySearch(let searchKey):
-            guard let url = URL(string: "https://www.themealdb.com/api/json/v1/1/search.php?s=\(searchKey)") else {
-                print("Invalid URL")
-                completion(nil)
-                return
-            }
-            apiURL = url
+            path = "/search.php"
+            queryItems.append(URLQueryItem(name: "s", value: searchKey))
         case .byArea(let area):
-            guard let url = URL(string: "https://www.themealdb.com/api/json/v1/1/filter.php?a=\(area)") else {
-                print("Invalid URL")
-                completion(nil)
-                return
-            }
-            apiURL = url
+            path = "/filter.php"
+            queryItems.append(URLQueryItem(name: "a", value: area))
+        }
+
+        var components = URLComponents(string: APIBaseURL + path)
+        components?.queryItems = queryItems
+
+        guard let apiURL = components?.url else {
+            print("Invalid URL")
+            completion(nil)
+            return
         }
 
         fetchData(from: apiURL) { data, response, error in
@@ -103,7 +105,7 @@ class APICalls {
     }
 
     public static func fetchCategories(completion: @escaping ([Category]?) -> Void) {
-        guard let apiURL = URL(string: "https://www.themealdb.com/api/json/v1/1/categories.php") else {
+        guard let apiURL = URL(string: APIBaseURL + "/categories.php") else {
             print("Invalid URL")
             completion(nil)
             return
@@ -131,7 +133,9 @@ class APICalls {
     }
 
     public static func fetchAreas(completion: @escaping ([Area]?) -> Void) {
-        guard let apiURL = URL(string: "https://www.themealdb.com/api/json/v1/1/list.php?a=list") else {
+        var components = URLComponents(string: APIBaseURL + "list.php")
+        components?.queryItems = [URLQueryItem(name: "a", value: "list")]
+        guard let apiURL = components?.url else {
             print("Invalid URL")
             completion(nil)
             return

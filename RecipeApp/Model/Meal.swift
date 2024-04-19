@@ -22,14 +22,3 @@ struct Meal {
         imageURL = url
     }
 }
-
-// MARK: Mock
-extension Meal {
-    public static func mock() -> [Meal] {
-        return [
-            Meal(id: "52959", name: "Baked salmon with fennel & tomatoes"),
-            Meal(id: "52819", name: "Cajun spiced fish tacos"),
-            Meal(id: "52944", name: "Escovitch Fish"),
-        ]
-    }
-}
